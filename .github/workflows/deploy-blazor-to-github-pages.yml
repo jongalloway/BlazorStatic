@@ -4,6 +4,13 @@ name: Deploy Blazor WASM to GitHub pages
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+    - 'README.md'
+
+# Create an environment variable named DOTNET_VERSION
+# and set it as "6.0.x"
+env:
+  DOTNET_VERSION: '6.0.x' # The .NET SDK version to use
 
 jobs:
   deploy-to-github-pages:
@@ -13,11 +20,11 @@ jobs:
     # uses GitHub's checkout action to checkout code form the main branch
     - uses: actions/checkout@v2
     
-    # sets up .NET SDK 6.0
+    # sets up .NET SDK
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
