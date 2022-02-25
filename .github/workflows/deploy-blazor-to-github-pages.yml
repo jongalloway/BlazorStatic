@@ -36,7 +36,7 @@ jobs:
          
     # set Blazor project name
     - name: Set Blazor project
-      if: ${{ (((env.PROJECT_NAME == ""))) }}
+      if: ${{ (((env.PROJECT_NAME == ''))) }}
       run: |
         echo "PROJECT_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV    
       
