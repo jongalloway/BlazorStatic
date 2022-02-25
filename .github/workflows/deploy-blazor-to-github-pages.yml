@@ -38,7 +38,11 @@ jobs:
     - name: Set Blazor project
       if: ${{ (((env.PROJECT_NAME == ''))) }}
       run: |
-        echo "PROJECT_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV    
+        echo "PROJECT_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    # set short commit sha
+    - name: Set short commit sha
+      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV    
       
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
@@ -46,7 +50,11 @@ jobs:
     
     # changes the base-tag in index.html from '/' to Project folder to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to project folder
-      run: sed -i "s/<base href=""\/"" \/>/<base href=""\/${PROJECT_NAME}\/"" \/>/g" release/wwwroot/index.html
+      run: sed -i "s/<base href=""\/"" \/>/<base href=""\/$PROJECT_NAME\/"" \/>/g" release/wwwroot/index.html
+      
+    # set commit sha in footer (requires <!--git_commit--> placholder)
+    - name: set commit sha in footer
+      run: sed -i "s/<!--git_commit-->/$SHORT_SHA/g" release/wwwroot/index.html      
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
