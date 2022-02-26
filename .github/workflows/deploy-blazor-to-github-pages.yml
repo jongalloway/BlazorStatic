@@ -51,7 +51,7 @@ jobs:
     
     # changes the base-tag in index.html from '/' to Project folder to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to project folder
-      run: sed --debug -i "s|<base href=""\/"" />|<base href=""\/$PROJECT_NAME\/"" />|" release/wwwroot/index.html
+      run: sed --debug -i "s|<base href=\"\/\" />|<base href=\"\/$PROJECT_NAME\/\" />|" release/wwwroot/index.html
       
     # set commit sha in footer (requires <!--git_commit--> placholder)
     - name: set commit sha in footer
